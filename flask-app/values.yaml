@@ -1,0 +1,32 @@
+# Default values for kube-deployment.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+## Deployment specifics ##
+
+replicaCount: 3
+
+image:
+  repository: flaskapp
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+## Metadata labels section will be share among services and deployments and ingress ##
+
+metadata:
+  labels:
+    app: flask-dep
+  appname: flask-app
+#  namespace: helm-test
+
+containerPorts:
+  cport: 9090
+
+
+## Services definitions ###
+
+svc:
+  name: flask-svc
+  type: NodePort
+  port: 8081

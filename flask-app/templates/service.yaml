@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.metadata.labels.app }}
+  name: {{ .Values.metadata.appname }}-svc
+spec:
+  ports:
+  - port: {{ .Values.svc.port }}
+    protocol: TCP
+    targetPort: {{ .Values.containerPorts.cport }}
+  selector:
+    app: {{ .Values.metadata.labels.app }}
+  type: {{ .Values.svc.type }}
