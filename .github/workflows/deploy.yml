@@ -9,19 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Set up Kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'v1.19.2' # replace with your kubectl version
+      - name: Set up Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'v1.19.2' # replace with your kubectl version
 
-    - name: Configure Kubectl
-      run: |
-        echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/config
-        kubectl config use-context --kubeconfig=/tmp/config <your-context> # replace with your context
+      - name: Configure Kubectl
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/config
+          kubectl config use-context --kubeconfig=/tmp/config <your-context> # replace with your context
 
-    - name: Deploy to Kubernetes
-      run: |
-        ls
+      - name: Deploy to Kubernetes
+        run: |
+          ls
