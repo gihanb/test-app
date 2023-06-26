@@ -19,8 +19,7 @@ jobs:
 
       - name: Configure Kubectl
         run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/config
-          kubectl config use-context --kubeconfig=/tmp/config <your-context> # replace with your context
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode
 
       - name: Deploy to Kubernetes
         run: |
