@@ -9,6 +9,7 @@ on:
 jobs:
   ghtest:
     runs-on: ["self-hosted"]
+    container: postgres
     services:
       postgres:
         image: postgres
