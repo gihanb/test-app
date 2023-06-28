@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: check to Kubernetes
         run: |
-          kubectl get pod
+          kubectl get pods
