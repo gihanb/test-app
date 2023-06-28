@@ -9,7 +9,7 @@ on:
 jobs:
   ghtest:
     runs-on: ["self-hosted"]
-    container: postgres
+    container: node:20-alpine
     services:
       postgres:
         image: postgres
@@ -26,9 +26,9 @@ jobs:
 
       - name: Install npm
         run: |
-         sudo apt-get update
-         sudo apt-get install nodejs -y
-         sudo apt-get install npm -y
+          apt-get update
+          apt-get install nodejs -y
+          apt-get install npm -y
 
       - name: Generate package.json
         run: |
