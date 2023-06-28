@@ -1,0 +1,61 @@
+---
+name: testmodule
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ghtest:
+    runs-on: ["self-hosted"]
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install npm
+        run: |
+         sudo apt-get update
+         sudo apt-get install nodejs -y
+         sudo apt-get install npm -y
+
+      - name: Generate package.json
+        run: |
+         npm init -y
+         npm install express
+         npm ci
+         npm install pg
+
+      - name: Generate client.js
+        run: |
+          echo "const { Client } = require('pg');" > client.js
+          echo "const client = new Client({" >> client.js
+          echo "  host: process.env.POSTGRES_HOST," >> client.js
+          echo "  port: process.env.POSTGRES_PORT," >> client.js
+          echo "  password: process.env.POSTGRES_PASSWORD," >> client.js
+          echo "  database: 'postgres'," >> client.js
+          echo "});" >> client.js
+          echo "client.connect(err => {" >> client.js
+          echo "  if (err) {" >> client.js
+          echo "    console.error('connection error', err.stack);" >> client.js
+          echo "  } else {" >> client.js
+          echo "    console.log('connected');" >> client.js
+          echo "  }" >> client.js
+          echo "});" >> client.js
+
+      - name: Connect to PostgreSQL
+        run: node client.js
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_PASSWORD: postgres
