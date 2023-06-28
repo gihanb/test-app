@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  deploytestapp:
+    runs-on: ["self-hosted", "test-runner"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -15,11 +15,7 @@ jobs:
       - name: Set up Kubectl
         uses: azure/setup-kubectl@v1
         with:
-          version: 'v1.19.2' # replace with your kubectl version
-
-      - name: Configure Kubectl
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode
+          version: 'v1.26.2'
 
       - name: Deploy to Kubernetes
         run: |
